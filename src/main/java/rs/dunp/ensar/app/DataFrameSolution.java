@@ -1,6 +1,7 @@
 package rs.dunp.ensar.app;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.deploy.worker.Worker;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class DataFrameSolution {
     public static void main(String[] args) {
-        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("local[*]");
+        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("spark://192.168.0.131:7077");
         var spark = SparkSession.builder().config(sparkConf).getOrCreate();
 
         String path = Objects.requireNonNull(DataFrameSolution.class.getResource("/kupovina.csv")).getPath();
