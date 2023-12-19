@@ -4,14 +4,21 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import scala.Tuple2;
+
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Objects;
 
 public class RDDSolution {
     public static void main(String[] args) {
         var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("local[*]");
-        var sparkContext = new SparkContext(sparkConf);
+        var sparkContext = new JavaSparkContext(sparkConf);
 
-        JavaRDD<String> inputFile = sparkContext.textFile("C:\\spark-3.5.0-bin-hadoop3\\kupovina.csv", 1).toJavaRDD();
+        String path = Objects.requireNonNull(RDDSolution.class.getResource("/kupovina.csv")).getPath();
+
+        JavaRDD<String> inputFile = sparkContext.textFile(path);
 
         JavaPairRDD<String, Double> purchases = inputFile.mapToPair(line -> {
             String[] parts = line.split(",");
