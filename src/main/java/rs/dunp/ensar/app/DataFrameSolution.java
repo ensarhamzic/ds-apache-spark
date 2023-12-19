@@ -6,8 +6,6 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.functions;
 
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Objects;
 
 public class DataFrameSolution {
@@ -27,6 +25,6 @@ public class DataFrameSolution {
 
         Dataset<Row> totalSpentByCustomer = df.groupBy("customerId").agg(functions.sum("price").alias("totalSpent"));
 
-        totalSpentByCustomer.show();
+        totalSpentByCustomer.show(1000);
     }
 }
