@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class RDDSolution {
     public static void main(String[] args) {
-        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("spark://192.168.0.131:7077");
+        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("spark://192.168.137.1:7077");
         var sparkContext = new JavaSparkContext(sparkConf);
 
         String path = Objects.requireNonNull(RDDSolution.class.getResource("/kupovina.csv")).getPath();
@@ -26,7 +26,6 @@ public class RDDSolution {
 
         JavaPairRDD<String, Double> totalSpentByCustomer = purchases.reduceByKey(Double::sum);
 
-//        System.out.println(totalSpentByCustomer.count());
-//    totalSpentByCustomer.saveAsTextFile("C:\\spark-3.5.0-bin-hadoop3\\ensar.txt");
+        totalSpentByCustomer.foreach(x -> System.out.println(x._1 + " " + x._2));
     }
 }

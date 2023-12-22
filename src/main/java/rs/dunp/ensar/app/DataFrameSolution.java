@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class DataFrameSolution {
     public static void main(String[] args) {
-        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("spark://192.168.0.131:7077");
+        var sparkConf = new SparkConf().setAppName("DistribuiraniSistemi").setMaster("spark://192.168.137.1:7077");
         var spark = SparkSession.builder().config(sparkConf).getOrCreate();
 
         String path = Objects.requireNonNull(DataFrameSolution.class.getResource("/kupovina.csv")).getPath();
@@ -25,6 +25,8 @@ public class DataFrameSolution {
         df = df.withColumn("price", df.col("price").cast("double"));
 
         Dataset<Row> totalSpentByCustomer = df.groupBy("customerId").agg(functions.sum("price").alias("totalSpent"));
+
+        totalSpentByCustomer = totalSpentByCustomer.withColumn("totalSpent", functions.round(totalSpentByCustomer.col("totalSpent"), 2));
 
         totalSpentByCustomer.show(1000);
     }
