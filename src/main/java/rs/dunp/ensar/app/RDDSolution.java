@@ -25,6 +25,7 @@ public class RDDSolution {
         });
 
         JavaPairRDD<String, Double> totalSpentByCustomer = purchases.reduceByKey(Double::sum);
+        totalSpentByCustomer = totalSpentByCustomer.mapValues(x -> Math.round(x * 100.0) / 100.0);
 
         totalSpentByCustomer.foreach(x -> System.out.println(x._1 + " " + x._2));
     }
